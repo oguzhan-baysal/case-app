@@ -1,7 +1,11 @@
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { increaseQuantity, decreaseQuantity } from '../../features/cartSlice'
 
-const Cart = () => {
+interface CartProps {
+  onClose?: () => void
+}
+
+const Cart = ({ onClose }: CartProps) => {
   const dispatch = useAppDispatch()
   const { items } = useAppSelector((state) => state.cart)
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
@@ -15,8 +19,20 @@ const Cart = () => {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow p-3">
-      <h2 className="text-base font-semibold text-gray-900 mb-3">Cart</h2>
+    <div className="bg-white rounded-lg shadow-lg p-3 max-h-[calc(100vh-100px)] overflow-y-auto">
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="text-base font-semibold text-gray-900">Cart</h2>
+        {onClose && (
+          <button 
+            onClick={onClose}
+            className="text-blue-600 hover:text-blue-700 p-1 rounded-full hover:bg-blue-50 transition-colors"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        )}
+      </div>
       
       <div className="space-y-3 mb-3">
         {items.map((item) => (
@@ -28,14 +44,14 @@ const Cart = () => {
             <div className="flex items-center gap-1 ml-2">
               <button 
                 onClick={() => handleDecrease(item.id)}
-                className="w-5 h-5 flex items-center justify-center rounded border border-gray-300 text-gray-600 hover:bg-gray-100 bg-white"
+                className="w-5 h-5 flex items-center justify-center rounded border border-blue-200 text-blue-600 hover:bg-blue-50 bg-white transition-colors"
               >
                 <span className="text-sm">−</span>
               </button>
               <span className="text-gray-800 w-4 text-center">{item.quantity}</span>
               <button 
                 onClick={() => handleIncrease(item.id)}
-                className="w-5 h-5 flex items-center justify-center rounded border border-gray-300 text-gray-600 hover:bg-gray-100 bg-white"
+                className="w-5 h-5 flex items-center justify-center rounded border border-blue-200 text-blue-600 hover:bg-blue-50 bg-white transition-colors"
               >
                 <span className="text-sm">+</span>
               </button>
@@ -53,7 +69,7 @@ const Cart = () => {
       <div className="border-t border-gray-200 pt-3">
         <div className="flex justify-between mb-3 text-sm">
           <span className="font-medium text-gray-800">Total:</span>
-          <span className="font-bold text-gray-900">{total.toLocaleString('tr-TR')}₺</span>
+          <span className="font-bold text-blue-600">{total.toLocaleString('tr-TR')}₺</span>
         </div>
         <button 
           className="w-full py-1.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"

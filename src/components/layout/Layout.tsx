@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router-dom'
 import Header from './Header'
 import Sidebar from './Sidebar'
-import Cart from './Cart'
 import MobileDrawer from './MobileDrawer'
 
 const Layout = () => {
@@ -15,14 +14,9 @@ const Layout = () => {
             <Sidebar />
           </div>
           
-          {/* Ana İçerik - minimum genişlik ekleyelim */}
+          {/* Ana İçerik */}
           <div className="flex-1 min-w-0">
             <Outlet />
-          </div>
-          
-          {/* Sağ Sepet */}
-          <div className="w-72 flex-shrink-0 hidden lg:block">
-            <Cart />
           </div>
         </div>
       </div>
