@@ -58,7 +58,7 @@ const Sidebar = () => {
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white text-gray-900 placeholder-gray-500"
             />
           </div>
-          <div className="max-h-48 overflow-y-auto space-y-1 pr-2">
+          <div className="max-h-48 overflow-y-auto space-y-1 pr-2 scrollbar-thin scrollbar-thumb-blue-600 scrollbar-track-gray-200 hover:scrollbar-thumb-blue-700">
             {filteredBrands.map((brand) => (
               <label key={brand} className="flex items-center gap-2 cursor-pointer">
                 <input
@@ -86,7 +86,7 @@ const Sidebar = () => {
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white text-gray-900 placeholder-gray-500"
             />
           </div>
-          <div className="max-h-48 overflow-y-auto space-y-1 pr-2">
+          <div className="max-h-48 overflow-y-auto space-y-1 pr-2 scrollbar-thin scrollbar-thumb-blue-600 scrollbar-track-gray-200 hover:scrollbar-thumb-blue-700">
             {filteredModels.map((model) => (
               <label key={model} className="flex items-center gap-2 cursor-pointer">
                 <input
