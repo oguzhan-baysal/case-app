@@ -25,9 +25,24 @@ const cartSlice = createSlice({
         state.items.push({ ...action.payload, quantity: 1 })
       }
     },
-    // Diğer sepet işlemleri buraya gelecek
+    increaseQuantity: (state, action: PayloadAction<string>) => {
+      const item = state.items.find(item => item.id === action.payload)
+      if (item) {
+        item.quantity += 1
+      }
+    },
+    decreaseQuantity: (state, action: PayloadAction<string>) => {
+      const item = state.items.find(item => item.id === action.payload)
+      if (item) {
+        if (item.quantity === 1) {
+          state.items = state.items.filter(i => i.id !== action.payload)
+        } else {
+          item.quantity -= 1
+        }
+      }
+    }
   },
 })
 
-export const { addToCart } = cartSlice.actions
+export const { addToCart, increaseQuantity, decreaseQuantity } = cartSlice.actions
 export default cartSlice.reducer 

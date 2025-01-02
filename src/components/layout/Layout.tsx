@@ -2,15 +2,16 @@ import { Outlet } from 'react-router-dom'
 import Header from './Header'
 import Sidebar from './Sidebar'
 import Cart from './Cart'
+import MobileDrawer from './MobileDrawer'
 
 const Layout = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      <div className="container mx-auto px-4 py-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex gap-6">
           {/* Sol Sidebar */}
-          <div className="w-64 flex-shrink-0 hidden md:block">
+          <div className="w-72 flex-shrink-0 hidden md:block">
             <Sidebar />
           </div>
           
@@ -20,11 +21,14 @@ const Layout = () => {
           </div>
           
           {/* Sağ Sepet */}
-          <div className="w-80 flex-shrink-0 hidden lg:block">
+          <div className="w-96 flex-shrink-0 hidden lg:block">
             <Cart />
           </div>
         </div>
       </div>
+      
+      {/* Mobil Drawer */}
+      <MobileDrawer />
     </div>
   )
 }

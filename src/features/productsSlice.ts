@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { productService } from '../services/api'
 import { Product } from '../types/product'
 
-interface SortOption {
+export interface SortOption {
   value: 'old-to-new' | 'new-to-old' | 'price-high-to-low' | 'price-low-to-high'
   label: string
 }
@@ -28,6 +28,8 @@ interface ProductsState {
   loading: boolean
   error: string | null
   filters: Filters
+  availableBrands: string[]
+  availableModels: string[]
 }
 
 const initialState: ProductsState = {
@@ -41,7 +43,9 @@ const initialState: ProductsState = {
     brands: [],
     models: [],
     searchTerm: ''
-  }
+  },
+  availableBrands: [],
+  availableModels: []
 }
 
 export const fetchProducts = createAsyncThunk(
@@ -94,6 +98,15 @@ const productsSlice = createSlice({
     },
     setSelectedProduct: (state, action: PayloadAction<Product>) => {
       state.selectedProduct = action.payload
+    },
+    updateAvailableFilters: (state) => {
+      state.availableBrands = Array.from(
+        new Set(state.products.map(product => product.brand))
+      ).sort()
+
+      state.availableModels = Array.from(
+        new Set(state.products.map(product => product.model))
+      ).sort()
     }
   },
   extraReducers: (builder) => {
@@ -105,6 +118,12 @@ const productsSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.loading = false
         state.products = action.payload
+        state.availableBrands = Array.from(
+          new Set(action.payload.map(product => product.brand))
+        ).sort()
+        state.availableModels = Array.from(
+          new Set(action.payload.map(product => product.model))
+        ).sort()
         applyFilters(state)
       })
       .addCase(fetchProducts.rejected, (state, action) => {
