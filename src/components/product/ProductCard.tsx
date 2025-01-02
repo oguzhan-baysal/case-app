@@ -15,24 +15,22 @@ const ProductCard = ({ product }: ProductCardProps) => {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow p-4">
       <Link to={`/product/${product.id}`} className="block">
-        <div className="relative pb-[56.25%]">
+        <div className="relative pb-[75%] mb-4">
           <img 
             src={product.image} 
             alt={product.name}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover rounded-lg"
           />
         </div>
-        <div className="p-4">
-          <div className="mb-2">
-            <h3 className="text-lg font-semibold text-gray-800 mb-1">{product.name}</h3>
-            <p className="text-sm text-gray-500">{product.brand} {product.model}</p>
-          </div>
-          <p className="text-gray-600 mb-4 overflow-hidden text-sm line-clamp-2">
+        <div className="space-y-2">
+          <h3 className="text-lg font-semibold text-gray-800 truncate">{product.name}</h3>
+          <p className="text-sm text-gray-500">{product.brand} {product.model}</p>
+          <p className="text-gray-600 text-sm line-clamp-2 h-10">
             {product.description}
           </p>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between pt-2">
             <span className="text-lg font-bold text-blue-600">
               {product.price.toLocaleString('tr-TR')}₺
             </span>
@@ -41,7 +39,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 e.preventDefault()
                 handleAddToCart()
               }}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+              className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors"
             >
               Sepete Ekle
             </button>

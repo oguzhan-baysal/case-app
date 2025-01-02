@@ -15,6 +15,10 @@ const ProductList = () => {
     dispatch(fetchProducts())
   }, [dispatch])
 
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [filteredProducts.length])
+
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE)
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
   const paginatedProducts = filteredProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE)
@@ -46,7 +50,7 @@ const ProductList = () => {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {paginatedProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}

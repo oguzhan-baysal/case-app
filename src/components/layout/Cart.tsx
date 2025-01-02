@@ -15,29 +15,29 @@ const Cart = () => {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow p-4">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">Cart</h2>
+    <div className="bg-white rounded-lg shadow p-3">
+      <h2 className="text-base font-semibold text-gray-900 mb-3">Cart</h2>
       
-      <div className="space-y-4 mb-4">
+      <div className="space-y-3 mb-3">
         {items.map((item) => (
-          <div key={item.id} className="flex items-center justify-between">
-            <div>
-              <h3 className="font-medium text-gray-800">{item.name}</h3>
-              <p className="text-sm text-gray-600">{item.price.toLocaleString('tr-TR')}₺</p>
+          <div key={item.id} className="flex items-center justify-between text-sm">
+            <div className="flex-1 min-w-0">
+              <h3 className="font-medium text-gray-800 truncate">{item.name}</h3>
+              <p className="text-xs text-gray-600">{item.price.toLocaleString('tr-TR')}₺</p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 ml-2">
               <button 
                 onClick={() => handleDecrease(item.id)}
-                className="w-6 h-6 flex items-center justify-center rounded border border-gray-300 bg-white hover:bg-gray-100"
+                className="w-5 h-5 flex items-center justify-center rounded border border-gray-300 text-gray-600 hover:bg-gray-100 bg-white"
               >
-                <span className="text-gray-900 text-lg font-bold leading-none">−</span>
+                <span className="text-sm">−</span>
               </button>
               <span className="text-gray-800 w-4 text-center">{item.quantity}</span>
               <button 
                 onClick={() => handleIncrease(item.id)}
-                className="w-6 h-6 flex items-center justify-center rounded border border-gray-300 bg-white hover:bg-gray-100"
+                className="w-5 h-5 flex items-center justify-center rounded border border-gray-300 text-gray-600 hover:bg-gray-100 bg-white"
               >
-                <span className="text-gray-900 text-lg font-bold leading-none">+</span>
+                <span className="text-sm">+</span>
               </button>
             </div>
           </div>
@@ -50,13 +50,13 @@ const Cart = () => {
         )}
       </div>
 
-      <div className="border-t border-gray-200 pt-4">
-        <div className="flex justify-between mb-4">
-          <span className="font-medium text-gray-800">Total Price:</span>
+      <div className="border-t border-gray-200 pt-3">
+        <div className="flex justify-between mb-3 text-sm">
+          <span className="font-medium text-gray-800">Total:</span>
           <span className="font-bold text-gray-900">{total.toLocaleString('tr-TR')}₺</span>
         </div>
         <button 
-          className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full py-1.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={items.length === 0}
         >
           Checkout
