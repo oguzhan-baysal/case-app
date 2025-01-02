@@ -2,12 +2,32 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { productService } from '../services/api'
 import { Product } from '../types/product'
 
+interface SortOption {
+  value: 'old-to-new' | 'new-to-old' | 'price-high-to-low' | 'price-low-to-high'
+  label: string
+}
+
+export const sortOptions: SortOption[] = [
+  { value: 'old-to-new', label: 'Old to new' },
+  { value: 'new-to-old', label: 'New to old' },
+  { value: 'price-high-to-low', label: 'Price high to low' },
+  { value: 'price-low-to-high', label: 'Price low to High' }
+]
+
+interface Filters {
+  sort: SortOption['value'] | null
+  brands: string[]
+  models: string[]
+  searchTerm: string
+}
+
 interface ProductsState {
   products: Product[]
   filteredProducts: Product[]
   selectedProduct: Product | null
   loading: boolean
   error: string | null
+  filters: Filters
 }
 
 const initialState: ProductsState = {
@@ -16,6 +36,12 @@ const initialState: ProductsState = {
   selectedProduct: null,
   loading: false,
   error: null,
+  filters: {
+    sort: null,
+    brands: [],
+    models: [],
+    searchTerm: ''
+  }
 }
 
 export const fetchProducts = createAsyncThunk(
@@ -38,16 +64,37 @@ const productsSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
+    setSort: (state, action: PayloadAction<SortOption['value']>) => {
+      state.filters.sort = action.payload
+      applyFilters(state)
+    },
+    toggleBrand: (state, action: PayloadAction<string>) => {
+      const brand = action.payload
+      const index = state.filters.brands.indexOf(brand)
+      if (index === -1) {
+        state.filters.brands.push(brand)
+      } else {
+        state.filters.brands.splice(index, 1)
+      }
+      applyFilters(state)
+    },
+    toggleModel: (state, action: PayloadAction<string>) => {
+      const model = action.payload
+      const index = state.filters.models.indexOf(model)
+      if (index === -1) {
+        state.filters.models.push(model)
+      } else {
+        state.filters.models.splice(index, 1)
+      }
+      applyFilters(state)
+    },
     searchProducts: (state, action: PayloadAction<string>) => {
-      const searchTerm = action.payload.toLowerCase()
-      state.filteredProducts = state.products.filter(product => 
-        product.name.toLowerCase().includes(searchTerm) ||
-        product.description.toLowerCase().includes(searchTerm)
-      )
+      state.filters.searchTerm = action.payload.toLowerCase()
+      applyFilters(state)
     },
     setSelectedProduct: (state, action: PayloadAction<Product>) => {
       state.selectedProduct = action.payload
-    },
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -58,7 +105,7 @@ const productsSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.loading = false
         state.products = action.payload
-        state.filteredProducts = action.payload
+        applyFilters(state)
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false
@@ -79,5 +126,47 @@ const productsSlice = createSlice({
   },
 })
 
-export const { searchProducts, setSelectedProduct } = productsSlice.actions
+const applyFilters = (state: ProductsState) => {
+  let filtered = [...state.products]
+
+  if (state.filters.brands.length > 0) {
+    filtered = filtered.filter(product => 
+      state.filters.brands.includes(product.brand)
+    )
+  }
+
+  if (state.filters.models.length > 0) {
+    filtered = filtered.filter(product => 
+      state.filters.models.includes(product.model)
+    )
+  }
+
+  if (state.filters.searchTerm) {
+    filtered = filtered.filter(product => 
+      product.name.toLowerCase().includes(state.filters.searchTerm) ||
+      product.description.toLowerCase().includes(state.filters.searchTerm)
+    )
+  }
+
+  if (state.filters.sort) {
+    filtered.sort((a, b) => {
+      switch (state.filters.sort) {
+        case 'old-to-new':
+          return a.id.localeCompare(b.id)
+        case 'new-to-old':
+          return b.id.localeCompare(a.id)
+        case 'price-high-to-low':
+          return b.price - a.price
+        case 'price-low-to-high':
+          return a.price - b.price
+        default:
+          return 0
+      }
+    })
+  }
+
+  state.filteredProducts = filtered
+}
+
+export const { setSort, toggleBrand, toggleModel, searchProducts, setSelectedProduct } = productsSlice.actions
 export default productsSlice.reducer 
