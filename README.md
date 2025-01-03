@@ -9,7 +9,7 @@ Modern bir e-ticaret uygulaması. React, TypeScript, Redux Toolkit ve Tailwind C
 
 ## 🚀 Demo
 
-[Live Demo](https://case-app-oguzhanakca.vercel.app/)
+[Live Demo](https://case-app-jade.vercel.app/)
 
 ## ✨ Özellikler
 
