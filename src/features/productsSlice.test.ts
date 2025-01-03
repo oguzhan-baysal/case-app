@@ -65,4 +65,16 @@ describe('Products Reducer', () => {
       ])
     )
   })
+
+  it('should handle search products', () => {
+    // Test search functionality
+  })
+
+  it('should handle pagination', () => {
+    // Test pagination
+  })
+
+  it('should handle API errors', () => {
+    // Test error handling
+  })
 }) 
