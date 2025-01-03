@@ -48,14 +48,16 @@ const Cart = ({ onClose }: CartProps) => {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => handleDecrease(item.id, item.quantity)}
-                className="p-1 hover:bg-gray-100 rounded"
+                className="w-6 h-6 flex items-center justify-center bg-blue-600 text-white rounded hover:bg-blue-700 text-lg font-bold"
               >
                 -
               </button>
-              <span>{item.quantity}</span>
+              <span className="text-gray-900 font-medium">
+                {item.quantity}
+              </span>
               <button
                 onClick={() => handleIncrease(item.id, item.quantity)}
-                className="p-1 hover:bg-gray-100 rounded"
+                className="w-6 h-6 flex items-center justify-center bg-blue-600 text-white rounded hover:bg-blue-700 text-lg font-bold"
               >
                 +
               </button>
