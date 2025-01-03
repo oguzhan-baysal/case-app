@@ -1,3 +1,93 @@
+# Vardabit E-commerce
+
+
+![image](https://github.com/user-attachments/assets/63518619-e4d0-49fe-b49b-fb7c796cd714)
+
+
+
+Modern bir e-ticaret uygulaması. React, TypeScript, Redux Toolkit ve Tailwind CSS ile geliştirilmiştir.
+
+## 🚀 Demo
+
+[Live Demo](https://case-app-oguzhanakca.vercel.app/)
+
+## ✨ Özellikler
+
+- 🛍️ Ürün listeleme ve detay sayfaları
+- 🔍 Arama ve filtreleme
+- 🛒 Sepet yönetimi
+- 💾 LocalStorage persistence
+- 📱 Responsive tasarım
+- ⚡ Hızlı yükleme performansı
+
+## 🛠️ Teknolojiler
+
+- React 18
+- TypeScript
+- Redux Toolkit
+- Tailwind CSS
+- Vite
+- Jest & React Testing Library
+
+## 🚀 Kurulum
+
+```bash
+# Repoyu klonlayın
+git clone https://github.com/yourusername/case-app.git
+
+# Proje dizinine gidin
+cd case-app
+
+# Bağımlılıkları yükleyin
+npm install
+
+# Geliştirme sunucusunu başlatın
+npm run dev
+```
+
+## 📝 Testler
+
+```bash
+# Tüm testleri çalıştırın
+npm test
+
+# Test coverage raporu
+npm test -- --coverage
+```
+
+## 📦 Build
+
+```bash
+# Production build oluşturun
+npm run build
+```
+
+## 🌟 Özellikler
+
+- Ürün listeleme ve filtreleme
+- Detaylı ürün sayfaları
+- Sepet yönetimi
+- Arama fonksiyonu
+- Responsive tasarım
+- Unit testler
+- LocalStorage entegrasyonu
+- API entegrasyonu
+
+## 🤝 Katkıda Bulunma
+
+1. Fork edin
+2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
+3. Değişikliklerinizi commit edin (`git commit -m 'Add some amazing feature'`)
+4. Branch'inizi push edin (`git push origin feature/amazing-feature`)
+5. Pull Request oluşturun
+
+## 📄 Lisans
+
+MIT License - daha fazla detay için [LICENSE.md](LICENSE.md) dosyasına bakın.
+
+
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
