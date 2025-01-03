@@ -25,7 +25,7 @@ const Header = () => {
             Vardabit
           </Link>
           
-          <div className="flex-1 max-w-3xl">
+          <div className="flex-1 max-w-md">
             <input
               type="search"
               placeholder="Search"

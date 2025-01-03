@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { productService } from '../services/api'
 import { Product } from '../types/product'
+import { FILTERS_STORAGE_KEY, saveToStorage, loadFromStorage } from '../utils/localStorage'
 
 export interface SortOption {
   value: 'old-to-new' | 'new-to-old' | 'price-high-to-low' | 'price-low-to-high'
@@ -30,28 +31,40 @@ interface ProductsState {
   filters: Filters
   availableBrands: string[]
   availableModels: string[]
+  pagination: {
+    currentPage: number
+    totalPages: number
+    limit: number
+  }
 }
 
+// Initial state'i localStorage'dan yükle
+const savedFilters = loadFromStorage(FILTERS_STORAGE_KEY)
 const initialState: ProductsState = {
   products: [],
   filteredProducts: [],
   selectedProduct: null,
   loading: false,
   error: null,
-  filters: {
-    sort: null,
+  filters: savedFilters?.filters || {
+    sort: 'new-to-old',
     brands: [],
     models: [],
     searchTerm: ''
   },
   availableBrands: [],
-  availableModels: []
+  availableModels: [],
+  pagination: {
+    currentPage: 1,
+    totalPages: 1,
+    limit: 12
+  }
 }
 
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
-  async () => {
-    const response = await productService.getProducts()
+  async (page: number = 1) => {
+    const response = await productService.getProducts(page)
     return response
   }
 )
@@ -70,7 +83,7 @@ const productsSlice = createSlice({
   reducers: {
     setSort: (state, action: PayloadAction<SortOption['value']>) => {
       state.filters.sort = action.payload
-      applyFilters(state)
+      saveToStorage(FILTERS_STORAGE_KEY, { filters: state.filters })
     },
     toggleBrand: (state, action: PayloadAction<string>) => {
       const brand = action.payload
@@ -80,7 +93,7 @@ const productsSlice = createSlice({
       } else {
         state.filters.brands.splice(index, 1)
       }
-      applyFilters(state)
+      saveToStorage(FILTERS_STORAGE_KEY, { filters: state.filters })
     },
     toggleModel: (state, action: PayloadAction<string>) => {
       const model = action.payload
@@ -90,11 +103,11 @@ const productsSlice = createSlice({
       } else {
         state.filters.models.splice(index, 1)
       }
-      applyFilters(state)
+      saveToStorage(FILTERS_STORAGE_KEY, { filters: state.filters })
     },
     searchProducts: (state, action: PayloadAction<string>) => {
       state.filters.searchTerm = action.payload.toLowerCase()
-      applyFilters(state)
+      saveToStorage(FILTERS_STORAGE_KEY, { filters: state.filters })
     },
     setSelectedProduct: (state, action: PayloadAction<Product>) => {
       state.selectedProduct = action.payload
@@ -107,6 +120,9 @@ const productsSlice = createSlice({
       state.availableModels = Array.from(
         new Set(state.products.map(product => product.model))
       ).sort()
+    },
+    setPage: (state, action: PayloadAction<number>) => {
+      state.pagination.currentPage = action.payload
     }
   },
   extraReducers: (builder) => {
@@ -116,13 +132,14 @@ const productsSlice = createSlice({
         state.error = null
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
+        state.products = action.payload.products
         state.loading = false
-        state.products = action.payload
+        state.pagination.totalPages = Math.ceil(action.payload.total / state.pagination.limit)
         state.availableBrands = Array.from(
-          new Set(action.payload.map(product => product.brand))
+          new Set(action.payload.products.map(product => product.brand))
         ).sort()
         state.availableModels = Array.from(
-          new Set(action.payload.map(product => product.model))
+          new Set(action.payload.products.map(product => product.model))
         ).sort()
         applyFilters(state)
       })
@@ -187,5 +204,5 @@ const applyFilters = (state: ProductsState) => {
   state.filteredProducts = filtered
 }
 
-export const { setSort, toggleBrand, toggleModel, searchProducts, setSelectedProduct } = productsSlice.actions
+export const { setSort, toggleBrand, toggleModel, searchProducts, setSelectedProduct, setPage } = productsSlice.actions
 export default productsSlice.reducer 

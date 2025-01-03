@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { increaseQuantity, decreaseQuantity } from '../../features/cartSlice'
+import { removeFromCart, updateQuantity } from '../../features/cartSlice'
 
 interface CartProps {
   onClose?: () => void
@@ -10,12 +10,16 @@ const Cart = ({ onClose }: CartProps) => {
   const { items } = useAppSelector((state) => state.cart)
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
-  const handleIncrease = (id: string) => {
-    dispatch(increaseQuantity(id))
+  const handleIncrease = (id: string, currentQuantity: number) => {
+    dispatch(updateQuantity({ id, quantity: currentQuantity + 1 }))
   }
 
-  const handleDecrease = (id: string) => {
-    dispatch(decreaseQuantity(id))
+  const handleDecrease = (id: string, currentQuantity: number) => {
+    if (currentQuantity === 1) {
+      dispatch(removeFromCart(id))
+    } else {
+      dispatch(updateQuantity({ id, quantity: currentQuantity - 1 }))
+    }
   }
 
   return (
@@ -41,19 +45,19 @@ const Cart = ({ onClose }: CartProps) => {
               <h3 className="font-medium text-gray-800 truncate">{item.name}</h3>
               <p className="text-xs text-gray-600">{item.price.toLocaleString('tr-TR')}₺</p>
             </div>
-            <div className="flex items-center gap-1 ml-2">
-              <button 
-                onClick={() => handleDecrease(item.id)}
-                className="w-5 h-5 flex items-center justify-center rounded border border-blue-200 text-blue-600 hover:bg-blue-50 bg-white transition-colors"
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => handleDecrease(item.id, item.quantity)}
+                className="p-1 hover:bg-gray-100 rounded"
               >
-                <span className="text-sm">−</span>
+                -
               </button>
-              <span className="text-gray-800 w-4 text-center">{item.quantity}</span>
-              <button 
-                onClick={() => handleIncrease(item.id)}
-                className="w-5 h-5 flex items-center justify-center rounded border border-blue-200 text-blue-600 hover:bg-blue-50 bg-white transition-colors"
+              <span>{item.quantity}</span>
+              <button
+                onClick={() => handleIncrease(item.id, item.quantity)}
+                className="p-1 hover:bg-gray-100 rounded"
               >
-                <span className="text-sm">+</span>
+                +
               </button>
             </div>
           </div>

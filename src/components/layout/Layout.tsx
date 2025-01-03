@@ -10,7 +10,7 @@ const Layout = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 max-w-[1920px]">
         <div className="flex gap-8">
           {/* Sol Sidebar */}
-          <div className="w-56 flex-shrink-0 hidden md:block">
+          <div className="w-48 flex-shrink-0 hidden md:block">
             <Sidebar />
           </div>
           

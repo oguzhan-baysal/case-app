@@ -23,9 +23,9 @@ const Sidebar = () => {
   )
 
   return (
-    <div className="bg-white rounded-lg shadow p-4">
+    <div className="bg-white rounded-lg shadow p-3">
       <div className="mb-6">
-        <h3 className="font-medium text-gray-900 mb-3">Sort By</h3>
+        <h3 className="font-medium text-gray-900 mb-2">Sort By</h3>
         <div className="space-y-2">
           {sortOptions.map((option) => (
             <div
@@ -36,7 +36,7 @@ const Sidebar = () => {
               <input
                 type="radio"
                 name="sort"
-                className="form-radio h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                className="appearance-none w-4 h-4 rounded-full border border-gray-300 checked:border-blue-600 checked:bg-blue-600 cursor-pointer"
                 checked={filters.sort === option.value}
                 readOnly
               />
@@ -47,7 +47,7 @@ const Sidebar = () => {
       </div>
 
       <div className="mb-6">
-        <h3 className="font-medium text-gray-900 mb-3">Brands ({filteredBrands.length})</h3>
+        <h3 className="font-medium text-gray-900 mb-2">Brands ({filteredBrands.length})</h3>
         <div className="space-y-2">
           <div className="relative">
             <input
@@ -55,7 +55,7 @@ const Sidebar = () => {
               placeholder="Search brands..."
               value={brandSearch}
               onChange={(e) => setBrandSearch(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white text-gray-900 placeholder-gray-500"
+              className="w-36 h-7 px-2 text-xs border rounded focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white text-gray-900 placeholder-gray-400"
             />
           </div>
           <div className="max-h-48 overflow-y-auto space-y-1 pr-2 scrollbar-thin scrollbar-thumb-blue-600 scrollbar-track-gray-200 hover:scrollbar-thumb-blue-700">
@@ -75,7 +75,7 @@ const Sidebar = () => {
       </div>
 
       <div>
-        <h3 className="font-medium text-gray-900 mb-3">Models ({filteredModels.length})</h3>
+        <h3 className="font-medium text-gray-900 mb-2">Models ({filteredModels.length})</h3>
         <div className="space-y-2">
           <div className="relative">
             <input
@@ -83,7 +83,7 @@ const Sidebar = () => {
               placeholder="Search models..."
               value={modelSearch}
               onChange={(e) => setModelSearch(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white text-gray-900 placeholder-gray-500"
+              className="w-36 h-7 px-2 text-xs border rounded focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white text-gray-900 placeholder-gray-400"
             />
           </div>
           <div className="max-h-48 overflow-y-auto space-y-1 pr-2 scrollbar-thin scrollbar-thumb-blue-600 scrollbar-track-gray-200 hover:scrollbar-thumb-blue-700">
