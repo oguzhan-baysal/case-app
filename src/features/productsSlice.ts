@@ -84,6 +84,7 @@ const productsSlice = createSlice({
     setSort: (state, action: PayloadAction<SortOption['value']>) => {
       state.filters.sort = action.payload
       saveToStorage(FILTERS_STORAGE_KEY, { filters: state.filters })
+      applyFilters(state)
     },
     toggleBrand: (state, action: PayloadAction<string>) => {
       const brand = action.payload
@@ -94,6 +95,7 @@ const productsSlice = createSlice({
         state.filters.brands.splice(index, 1)
       }
       saveToStorage(FILTERS_STORAGE_KEY, { filters: state.filters })
+      applyFilters(state)
     },
     toggleModel: (state, action: PayloadAction<string>) => {
       const model = action.payload
@@ -104,10 +106,12 @@ const productsSlice = createSlice({
         state.filters.models.splice(index, 1)
       }
       saveToStorage(FILTERS_STORAGE_KEY, { filters: state.filters })
+      applyFilters(state)
     },
     searchProducts: (state, action: PayloadAction<string>) => {
       state.filters.searchTerm = action.payload.toLowerCase()
       saveToStorage(FILTERS_STORAGE_KEY, { filters: state.filters })
+      applyFilters(state)
     },
     setSelectedProduct: (state, action: PayloadAction<Product>) => {
       state.selectedProduct = action.payload
@@ -165,25 +169,30 @@ const productsSlice = createSlice({
 const applyFilters = (state: ProductsState) => {
   let filtered = [...state.products]
 
+  // Marka filtresi
   if (state.filters.brands.length > 0) {
     filtered = filtered.filter(product => 
       state.filters.brands.includes(product.brand)
     )
   }
 
+  // Model filtresi
   if (state.filters.models.length > 0) {
     filtered = filtered.filter(product => 
       state.filters.models.includes(product.model)
     )
   }
 
+  // Arama filtresi
   if (state.filters.searchTerm) {
+    const searchTerm = state.filters.searchTerm.toLowerCase()
     filtered = filtered.filter(product => 
-      product.name.toLowerCase().includes(state.filters.searchTerm) ||
-      product.description.toLowerCase().includes(state.filters.searchTerm)
+      product.name.toLowerCase().includes(searchTerm) ||
+      product.description.toLowerCase().includes(searchTerm)
     )
   }
 
+  // Sıralama
   if (state.filters.sort) {
     filtered.sort((a, b) => {
       switch (state.filters.sort) {
@@ -205,4 +214,5 @@ const applyFilters = (state: ProductsState) => {
 }
 
 export const { setSort, toggleBrand, toggleModel, searchProducts, setSelectedProduct, setPage } = productsSlice.actions
-export default productsSlice.reducer 
+export default productsSlice.reducer
+export { initialState } 

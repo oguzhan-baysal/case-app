@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
+import { act } from 'react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { store } from '../../store'
@@ -16,14 +17,16 @@ const mockProduct = {
 }
 
 describe('ProductCard Component', () => {
-  it('renders product information correctly', () => {
-    render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <ProductCard product={mockProduct} />
-        </BrowserRouter>
-      </Provider>
-    )
+  it('renders product information correctly', async () => {
+    await act(async () => {
+      render(
+        <Provider store={store}>
+          <BrowserRouter>
+            <ProductCard product={mockProduct} />
+          </BrowserRouter>
+        </Provider>
+      )
+    })
 
     expect(screen.getByText('Test Product')).toBeInTheDocument()
     expect(screen.getByText('100₺')).toBeInTheDocument()

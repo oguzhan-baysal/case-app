@@ -6,7 +6,7 @@ import Pagination from '../components/common/Pagination'
 
 const ProductList = () => {
   const dispatch = useAppDispatch()
-  const { products, loading, error, pagination } = useAppSelector((state) => state.products)
+  const { loading, error, filteredProducts, pagination } = useAppSelector((state) => state.products)
 
   useEffect(() => {
     dispatch(fetchProducts(pagination.currentPage))
@@ -33,28 +33,27 @@ const ProductList = () => {
     )
   }
 
-  if (products.length === 0) {
-    return (
-      <div className="text-center text-gray-500 py-8">
-        Ürün bulunamadı
-      </div>
-    )
-  }
-
   return (
-    <div className="space-y-8">
+    <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
 
-      {/* Pagination'ı her zaman göster */}
-      <Pagination
-        currentPage={pagination.currentPage}
-        totalPages={pagination.totalPages}
-        onPageChange={handlePageChange}
-      />
+      {filteredProducts.length === 0 && !loading && (
+        <div className="text-center text-gray-500 py-8">
+          Ürün bulunamadı
+        </div>
+      )}
+
+      {filteredProducts.length > 0 && (
+        <Pagination
+          currentPage={pagination.currentPage}
+          totalPages={Math.ceil(filteredProducts.length / pagination.limit)}
+          onPageChange={handlePageChange}
+        />
+      )}
     </div>
   )
 }

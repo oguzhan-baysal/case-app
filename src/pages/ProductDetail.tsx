@@ -36,18 +36,18 @@ const ProductDetail = () => {
   if (!selectedProduct) return null
 
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full">
-      <div className="md:flex">
-        <div className="md:w-1/2 lg:w-3/5 xl:w-2/3 2xl:w-3/4">
+    <div className="w-full px-4 py-8">
+      <div className="md:flex gap-8">
+        <div className="md:w-2/3">
           <div className="aspect-w-16 aspect-h-9">
             <img
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover rounded-lg"
               src={selectedProduct.image}
               alt={selectedProduct.name}
             />
           </div>
         </div>
-        <div className="p-8 md:w-1/2 lg:w-2/5 xl:w-1/3 2xl:w-1/4">
+        <div className="md:w-1/3 p-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-4">
             {selectedProduct.name}
           </h1>

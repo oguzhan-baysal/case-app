@@ -23,7 +23,7 @@ const Sidebar = () => {
   )
 
   return (
-    <div className="bg-white rounded-lg shadow p-3">
+    <div data-testid="sidebar" className="bg-white rounded-lg shadow p-3">
       <div className="mb-6">
         <h3 className="font-medium text-gray-900 mb-2">Sort By</h3>
         <div className="space-y-2">
